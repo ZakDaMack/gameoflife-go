@@ -19,7 +19,7 @@ func MakeWorld(height, width int) World {
 func (w World) Seed() {
 	for _, row := range w {
 		for i := range row {
-			if rand.Intn(4) == 1 {
+			if rand.Intn(3) == 1 {
 				row[i] = true
 			}
 		}

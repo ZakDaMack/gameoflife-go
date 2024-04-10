@@ -1,4 +1,4 @@
-package gameoflife
+package common
 
 type Queue[T any] struct {
 	inner   []T

@@ -12,3 +12,4 @@ Currently implemented:
 - History queue to terminate app
 - Packages
 - Generics
+- GO project structuring
