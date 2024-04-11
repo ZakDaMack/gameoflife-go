@@ -5,14 +5,17 @@ import (
 	"math/rand"
 )
 
-func Start(height, width int) common.Canvas {
+type GameOfLife struct {
+}
+
+func (GameOfLife) Start(height, width int) common.Canvas {
 	c := common.MakeCanvas(height, width)
 	seedRandom(c)
 	// seedGlider(c)
 	return c
 }
 
-func Step(c common.Canvas) common.Canvas {
+func (GameOfLife) Step(c common.Canvas) common.Canvas {
 	newWorld := common.MakeCanvas(c.Size())
 	for i := range c {
 		for j := range c[i] {
@@ -22,7 +25,7 @@ func Step(c common.Canvas) common.Canvas {
 	return newWorld
 }
 
-func ShouldStop(q common.Queue[common.Canvas]) bool {
+func (GameOfLife) ShouldStop(q common.Queue[common.Canvas]) bool {
 	for i := 0; i < q.Length()-1; i++ {
 		for j := i + 1; j < q.Length(); j++ {
 			if q.Get(i).IsSame(q.Get(j)) {
