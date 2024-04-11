@@ -6,7 +6,13 @@ Simple implementation of Conway's Game of Life to help me learn go.
 
 This will be added on to as I learn different components of Go.
 
-Currently implemented:
+### Build
+
+```bash
+go build - bin/
+```
+
+### Currently implemented
 
 - Conway's Game of Life
 - History queue to terminate app

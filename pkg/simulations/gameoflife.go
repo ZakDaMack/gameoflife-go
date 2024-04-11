@@ -6,26 +6,44 @@ import (
 )
 
 type GameOfLife struct {
+	seed   string
+	queue  common.Queue[common.Canvas]
+	canvas common.Canvas
 }
 
-func (GameOfLife) Start(height, width int) common.Canvas {
-	c := common.MakeCanvas(height, width)
-	seedRandom(c)
-	// seedGlider(c)
-	return c
+func MakeGameOfLife(seed string) *GameOfLife {
+	return &GameOfLife{
+		seed:  seed,
+		queue: common.MakeQueue[common.Canvas](3),
+	}
 }
 
-func (GameOfLife) Step(c common.Canvas) common.Canvas {
-	newWorld := common.MakeCanvas(c.Size())
-	for i := range c {
-		for j := range c[i] {
-			newWorld[i][j] = nextCellState(j, i, c)
+func (g *GameOfLife) Start(height int, width int) common.Canvas {
+	g.canvas = common.MakeCanvas(height, width)
+	switch g.seed {
+	case "glider":
+		seedGlider(g.canvas)
+	default:
+		seedRandom(g.canvas)
+	}
+	g.queue.Add(g.canvas)
+	return g.canvas
+}
+
+func (g *GameOfLife) Step() common.Canvas {
+	newWorld := common.MakeCanvas(g.canvas.Size())
+	for i := range g.canvas {
+		for j := range g.canvas[i] {
+			newWorld[i][j] = nextCellState(j, i, g.canvas)
 		}
 	}
+	g.canvas = newWorld
+	g.queue.Add(newWorld)
 	return newWorld
 }
 
-func (GameOfLife) ShouldStop(q common.Queue[common.Canvas]) bool {
+func (g *GameOfLife) ShouldStop() bool {
+	q := &g.queue
 	for i := 0; i < q.Length()-1; i++ {
 		for j := i + 1; j < q.Length(); j++ {
 			if q.Get(i).IsSame(q.Get(j)) {
