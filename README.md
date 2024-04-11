@@ -13,3 +13,4 @@ Currently implemented:
 - Packages
 - Generics
 - GO project structuring
+- Interfaces / OOP
